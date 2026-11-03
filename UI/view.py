@@ -3,8 +3,8 @@ from UI.alert import AlertManager
 
 '''
     VIEW:
-    - Rappresenta l'interfaccia utente
-    - Riceve i dati dal MODELLO e li presenta senza modificarli
+- Rappresenta l'interfaccia utente
+- Riceve i dati dal MODELLO e li presenta senza modificarli
 '''
 
 class View:
@@ -24,8 +24,6 @@ class View:
         # Elementi UI
         self.txt_titolo = None
         self.txt_responsabile = None
-
-        # Non obbligatorio mettere già qui tutti gli elementi UI
 
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
@@ -62,8 +60,9 @@ class View:
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
         pulsante_conferma_responsabile = ft.Button("Conferma", on_click=self.controller.conferma_responsabile)
 
-        # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
-        # TODO
+        # Pulsanti "Mostra" e "Cerca"
+        pulsante_mostra_strumenti = ft.Button("Mostra", on_click=self.controller.mostra_strumenti)
+        pulsante_cerca_strumenti = ft.Button("Cerca", on_click=self.controller.cerca_strumenti)
 
         # --- LAYOUT ---
         self.page.add(
@@ -82,11 +81,20 @@ class View:
             ft.Divider(),
 
             # Sezione 3
-            # TODO
+            ft.Row(spacing=200,
+                   controls=[ft.Text("Strumenti", size=20), pulsante_mostra_strumenti],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_strumenti,
+            ft.Divider(),
 
             # Sezione 4
-            # TODO
+            ft.Text("Cerca Strumento per Tipo", size=20),
+            ft.Row(spacing=200,
+                   controls=[self.input_tipo_strumento, pulsante_cerca_strumenti],
+                   alignment=ft.MainAxisAlignment.CENTER),
+            self.lista_strumenti_ricerca
         )
+        self.page.update()
 
     def cambia_tema(self, e):
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT
